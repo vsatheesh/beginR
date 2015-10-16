@@ -1,0 +1,116 @@
+---
+title: "Data Types in R I"
+author: "Viswanathan Satheesh"
+date: "Sunday 12 July 2015"
+output: pdf_document
+---
+## Creating a vector
+Let us create vectors **x** and **y**. We will do that in two ways. One, using the *c()* function, and the other using the *seq()* function. 'c' combines values into a vector. 'seq' is a sequence generator.  
+
+```{r}
+x <- c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+y <- seq(11, 20)
+x
+y
+```
+The code above creates two vectors, **x** and **y**. Adding the two vectors gives:
+
+
+```{r}
+x + y
+```
+The elements are added element-wise. The operations in R are element-wise. As an exercise you can try doing the other mathematical
+operations on the two vectors. Take a look at the output of your effort and try to understand how the vectors work. 
+
+## Indexing
+The elements in the vectors are indexed. So, to extract an element you need only know its position. To extract the first element in x:
+
+```{r}
+x[1]
+```
+This returns **1**. Try the following and see what you get. 
+
+```{r}
+y[1:4]
+y[c(1, 3, 5)]
+y[c(-1, -3, -5)]
+y[-c(1, 3, 5)]
+```
+## Data types
+
+What are the important data types? They can be listed as:
+
+* **integer**
+* **numeric**
+* **logical**
+* **character**
+Let us first create some vectors
+
+```{r}
+n <- 1
+i <- 1L
+l <- TRUE
+c <- "Some string"
+```
+Here we have four vectors created. x is a numeric vector, y an integer vector, t a logical vector, and c is a character vector. Remember, in R everything is a vector. There are no scalars. Therefore, all these vectors that we have created are all vectors of length one. To check the length of the vector, use the length() function:
+
+```{r}
+length(n)
+length(i)
+length(l)
+length(c)
+```
+You can see that all objects created are of length one. 
+
+Now let us check these vectors using the *class()* function:
+```{r}
+class(x)
+class(y)
+class(t)
+class(c)
+```
+Now let us create vectors of length > 1
+```{r}
+num_vr <- c(1, 3.0, 5.0) # numeric vector
+int_vr <- c(1L, 3L, 5L) # integer vector
+log_vr <- c(TRUE, FALSE, TRUE) # logical vector
+char_vr <- c("I am", "a", "string.") # character vector
+```
+Now get their class.
+```{r}
+class(num_vr); length(num_vr)
+class(int_vr); length(int_vr)
+class(log_vr); length(log_vr)
+class(char_vr); length(char_vr)
+```
+We learnt to make vectors before, and now we have learnt to understand them a bit more. We now move on to matrices.
+First, let us create some vectors. 
+```{r}
+v1 <- 1:5
+v2 <- 6:10
+v3 <- 11:15
+```
+We have three vectors v1, v2, and v3 and we are going to bind them column-wise.
+```{r}
+cbind(v1, v2, v3)
+```
+The output just spews out to the console, which is not helpful. Let us create a variable, my_mat, and store the output
+```{r}
+my_mat <- cbind(v1, v2, v3)
+```
+Here, we used a function, cbind(), to bind three vectors into three columns. Now let us use the class function on the my_mat variable.
+```{r}
+class(my_mat)
+```
+my_matrix is a matrix. It has three columns, v1, v2, and v3. And, as it should be clear now, we used three vectors to create a matrix. Let us now see an alternate method for creating a matrix. 
+```{r}
+trial_mat <- matrix(1:20, nrow=4, ncol=5)
+trial_mat
+```
+
+This creates a matrix with 4 rows and 5 columns. The [1,] refers to the first row. The [,1] refers to the first column. 
+
+```{r}
+```
+
+**To be continued...**
