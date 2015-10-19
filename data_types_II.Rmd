@@ -1,0 +1,112 @@
+---
+title: "Data Types Part II"
+author: "Viswanathan Satheesh"
+date: "Sunday, July 12, 2015"
+output: pdf_document
+---
+Let us now talk about another kind of data structure, data frame. So, a data frame is similar to a matrix, but it can hold vectors of different classes. Let us create the same vectors we created in the previous session. 
+
+```{r}
+num_vr <- c(1, 3.0, 5.0) # numeric vector
+int_vr <- c(1L, 3L, 5L) # integer vector
+log_vr <- c(TRUE, FALSE, TRUE) # logical vector
+char_vr <- c("I am", "a", "string.") # character vector
+
+# Let us use the cbind() function to put them together.
+
+new_mat <- cbind(num_vr, int_vr, log_vr, char_vr)
+new_mat
+```
+Looking at the output, we know that it is something we do not want. What is the class of the new variable?
+
+```{r}
+class(new_mat)
+```
+The class of the object new_mat is "matrix". A matrix can hold data belonging to a particular class. In this case, every data point is converted into a character. This is called coercion. Here we need a different kind of data structure that can hold different classes of data. To demostrate this point, let us create some vectors that we will make use of in creating this structure. 
+
+```{r}
+set.seed(1234) # since the numbers are random, this will make sure we always 
+              # get the same set of random numbers
+plant_height <- rnorm(100, 110, 10)
+head(plant_height)
+# Too many decimals. Let us round it off to two.
+plant_height <- round(plant_height, 2)
+head(plant_height)
+
+set.seed(237)
+flowering_50 <- round(rnorm(100, 100, 10))
+head(flowering_50)
+
+set.seed(6438)
+spikelet_fertility <- round(rnorm(100, 90, 3), 2)
+head(spikelet_fertility)
+max(spikelet_fertility)
+```
+Now let us combine the three vectors into a single data structure.
+
+```{r}
+my_data <- cbind(plant_height, flowering_50, spikelet_fertility)
+head(my_data)
+class(my_data)
+```
+Let us now create some numbers that we will use as genotype ids. We have 100 observations and that makes it 100 genotypes. We will name the genotypes from "001" to "100". Let us use the paste() function to create these ids. 
+```{r}
+a1 <- paste("00", 1:9, sep = "")
+a1
+a2 <- paste("0", 10:99, sep = "")
+a2
+a <- c(a1, a2, 100)
+a
+```
+Let us add this vector to our my_data object.
+
+```{r}
+newdat <- cbind(a, my_data)
+head(newdat)
+```
+We have seen this problem before; the entire data getting converted into a character class. To overcome this problem we use the data.frame() function. 
+
+```{r}
+field <- data.frame(a, my_data)
+head(field)
+```
+This output is more like it. Let us check the class of the df object.
+```{r}
+class(field)
+```
+It is a data frame. A data frame, unlike a matrix, can hold vectors of different classes. Using the most important function in R, str(), we get a glimpse of what the field object contains.
+
+```{r}
+str(field)
+```
+The "field" object is a data frame with 100 observations and 4 variables. Except for a, which is a factor, plant_height, flowering_50, and spikelet_fertility are numeric. Remember that 'a' is a vector containing the genotype ids. Therefore, "a" is recognised as a factor here. 
+Now that we have our data frame, the next thing we want to do is explore it. Before we get down to exploring the data, let us learn how to subset the data. There are a number of ways to do it and we will take a look at what these are.
+
+When we construct a vector, the elements in the vector are indexed. Indexing in R is 1-based i.e. the numbering of elements in a vector starts from 1. In languages such as Python, the indexing is 0-based (zero-based) i.e. the numbering starts from 0. Let us see how this works.
+
+
+```{r}
+weight <- seq(45, 47, 0.2)
+length(weight)
+weight[2] # return the second element
+weight[-2] # return everything but the second element
+weight[c(2, 10)] # return elements 2 and 10
+weight[c(-2, -3, -6)] # return everything except the 2nd, 3rd, and 6th element. Also, 
+weight[-c(2, 3, 6)] # same as before 
+weight[5:3] # Returns elements 3 through 5 in the reverse order.
+```
+You can explore further with it. Let us now use these ideas in a matrix and data frame. Let us create a matrix using the matrix() function and take at the arrangement of the elements.
+
+```{r}
+test_mat <- matrix(1:20, 4, 5)
+test_mat
+```
+In the output [1,] indicates the first row, while [,1] indicates the first column. 
+
+```{r}
+test_mat[2, 3] # returns the third element in row 2.
+test_mat[c(2, 3),]# returns elements in the second and third rows and all the columns
+test_mat[c(2, 3), c(2, 3)] # returns elements in the second and third rows and columns
+test_mat[, c(4, 5)] # returns all rows and columns 4 and 5.
+```
+
