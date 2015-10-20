@@ -1,0 +1,89 @@
+---
+title: "Base plotting in R"
+author: "Konsam Sarika"
+date: "Sunday, July 12, 2015"
+output: pdf_document
+---
+
+## Taking a look at the data
+Visualisation of data is an important process in data analysis. R has a very powerful graphics system and is one of the resons why people flock to it. Let us use the iris data set that is already available in R. Let us see what the data is all about. The **str()** function is the *most important* function in R, which gives us information about the data that we are interested in analysing. 
+
+```{r}
+str(iris)
+
+```
+
+The output shows that there are 150 observations and 5 variables. Four of the variables viz., Sepal.Length, Sepal.Width, Petal.Length, and Petal.Width, are numeric, while the fifth, Species, is a factor. The factor has three levels, but only two are displayed. Let us see what the third is with the help of the **levels()** function.
+
+```{r}
+levels(iris$Species)
+```
+
+So, there are three levels and these levels seem to be three species of Iris. Let us see how the data are distributed among the three species.
+
+```{r}
+table(iris$Species)
+
+```
+
+The **table()** function splits the data according to the three different levels. So now we know that this data set has data regarding the following characters from three species of iris: sepal length, sepal width, petal length, and petal width, and from each of the species there are 50 observations. Using the **hist()** function the distribution of the data can be observed.
+
+### Histogram
+```{r dpi = 400, fig.width=6, fig.height=3}
+summary(iris) # descriptive, with a five point summary
+#?hist # to know the various arguments hist() can take
+hist(iris$Sepal.Length)
+
+```
+
+How can we improve this plot? Let us first change the number of bins using the "breaks" option.
+
+```{r fig.width=6, fig.height=3}
+hist(iris$Sepal.Length, breaks = 20)
+
+```
+
+In the resulting histogram, we are not happy about the way the x-axis is labelled, we would also want to add colour to the histograms, add a title and rename the x-axis. 
+```{r fig.width=6, fig.height=3}
+hist(iris$Sepal.Length, breaks = 20, xlim = c(4, 8), col = "pink", xlab = "Sepal Length (cm)", 
+     main = "IRIS")
+
+```
+
+We are now happy with the output. Over this, we would want to fit the density curve using the **density()** function. To be able to do this, we need to set the *prob = TRUE*. this option converts the y-axis from frequency to probability. 
+
+```{r}
+hist(iris$Sepal.Length, breaks = 20, probability = T, xlim = c(4, 8), ylim = c(0.0, 1.0), col = "pink", xlab = "Sepal Length (cm)", main = "IRIS")
+lines(density(iris$Sepal.Length), col = "blue", lwd = 2)
+```
+
+This histogram represents all the data i.e. it includes the data from all the three species. Let us now try to plot the histogram of sepal length for the three species separately. Can we have four plots in a single plot window? Yes, we can. Type ?par and go to the mfrow option in the documentation. 
+
+```{r}
+par("mfrow")
+```
+
+When you execute this command you get "1 1" as the output. This means that there is one plot per column and one  plot per row. Since we have four histograms, three species and one containing all the data points, we will do the following:
+
+```{r}
+par(mfrow = c(2, 2))
+
+hist(iris$Sepal.Length, breaks = 20, probability = T, xlim = c(4, 8), ylim = c(0.0, 1.0), 
+     col = "pink", xlab = "Sepal Length (cm)", main = "IRIS")
+lines(density(iris$Sepal.Length), col = "blue", lwd = 2)
+
+hist(iris[iris$Species == "setosa",]$Sepal.Length, breaks = 15, prob = T, xlim = c(4 , 6), 
+     col = "cyan", main = "setosa", xlab = "Sepal Length (cm)")
+lines(density(iris[iris$Species == "setosa",]$Sepal.Length), col = "red", lwd = 3)
+
+hist(iris[iris$Species == "versicolor",]$Sepal.Length, breaks = 15, prob = T, 
+     col = "green", main = "versicolor", xlab = "Sepal Length (cm)")
+lines(density(iris[iris$Species == "versicolor",]$Sepal.Length), col = "brown", lwd = 3)
+
+hist(iris[iris$Species == "versicolor",]$Sepal.Length, prob = T, col = "rosybrown", 
+     main = "virginica", xlab = "Sepal Length (cm)")
+lines(density(iris[iris$Species == "virginica",]$Sepal.Length), col = "turquoise", lwd = 3)
+```
+
+
+
