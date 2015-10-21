@@ -61,4 +61,4 @@ u - v
 u * v
 u / v
 
-  
+# operations are element-wise  
