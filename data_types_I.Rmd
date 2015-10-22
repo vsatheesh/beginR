@@ -20,7 +20,7 @@ The code above creates two vectors, **x** and **y**. Adding the two vectors give
 x + y
 ```
 The elements are added element-wise. The operations in R are element-wise. As an exercise you can try doing the other mathematical
-operations on the two vectors. Take a look at the output of your effort and try to understand how the vectors work. 
+operations on the two vectors. 
 
 ## Indexing
 The elements in the vectors are indexed. So, to extract an element you need only know its position. To extract the first element in x:
